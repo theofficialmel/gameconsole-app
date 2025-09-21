@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./App.scss";
+import "./App.css";
 import {
   createItem,
   listAllItems,
@@ -7,22 +7,22 @@ import {
   deleteItem,
 } from "./utils/dynamo";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+// import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 function App() {
   const [consoles, setConsoles] = useState([]);
   const [open, setOpen] = useState(false);
   const [consoleToUpdate, setConsoleToUpdate] = useState({
-    id: "",
-    name: "",
-    age: "",
-    isInstock: false,
+    // id: "",
+    // name: "",
+    // age: "",
+    // isInstock: false,
   });
 
   useEffect(() => {
     (async () => {
-      const items = await listAllItems("gameconsole");
+      const items = await listAllItems("Console-Table");
       setConsoles(items);
       console.log(items);
     })();
@@ -38,7 +38,7 @@ function App() {
   const handleUpdateConsole = async (event) => {
     event.preventDefault();
 
-    await updateItem("gameconsole", {
+    await updateItem("Console-Table", {
       id: consoleToUpdate.id,
       name: consoleToUpdate.name,
       age: parseInt(consoleToUpdate.age),
@@ -62,7 +62,7 @@ function App() {
   };
 
   const handleDeleteConsole = async (id, name) => {
-    await deleteItem("gameconsole", { id: id, name: name });
+    await deleteItem("Console-Table", { id: id, name: name });
     setConsoles((oldConsoles) => {
       return oldConsoles.filter((consoleObject) => {
         return !(consoleObject.id === id && consoleObject.name === name);
@@ -80,12 +80,14 @@ function App() {
     newConsole.age = parseInt(event.target.age.value);
     newConsole.isInstock = event.target.isInstock.checked;
 
-    await createItem("gameconsole", newConsole);
+    await createItem("Console-Table", newConsole);
 
     setConsoles((oldConsoles) => {
       return [...oldConsoles, newConsole];
-    });
+  });
   };
+
+
 
   // id: string, name: string,
   return (
@@ -93,25 +95,28 @@ function App() {
   
     <>
       <header>
-        <h1>Game Console purchases</h1>
+        <div className="text-center">
+        <h1 className="font-bold">Game Console purchases</h1>
+        </div>
       </header>
       <main>
-        <form onSubmit={handleAddConsole}>
-          <h2>Console Quantity</h2>
-          <label htmlFor="consoleName">Console Name</label>
-          <input type="text" name="consoleName" id="consoleName" />
+        
+        <form onSubmit={handleAddConsole} className="flex flex-col items-center text-center space-y-4 bg-amber-50 font-bold  flex justify-center items-center h-screen  w-screen   "   >
+          <h2 className="h2-colors font-bold">Console Quantity</h2>
+          <label className="font-bold"htmlFor="consoleName">Console Name</label>
+          <input className=" bg-neutral-300 text-white py-2 px-4 rounded hover:bg-neutral-400 " type="text" name="consoleName" id="consoleName" />
+           <br />
+          <label className="font-bold" htmlFor="age">Age</label>
+          <input className="bg-neutral-400 hover bg-blue-700  border-b-black" type="number" name="age" id="age" />
           <br />
-          <label htmlFor="age">Age</label>
-          <input type="number" name="age" id="age" />
-          <br />
-          <label htmlFor="isInstock">In Stock</label>
-          <input type="checkbox" name="isInstock" id="isInstock" />
-          <br />
-          <button type="submit">Add Console</button>
+          <label className="font-bold" htmlFor="isInstock">In Stock</label>
+          <input  type="checkbox" name="isInstock" id="isInstock" />
+          
+          <button className="bg-blue-700" type="submit">Add Console</button>
         </form>
         
 
-            <section>
+            <section className="flex flex-col items-center text-center space-y-4 bg-amber-50 font-bold  ">
               <h2>Console Collection</h2>
               {consoles.length === 0 ? (
                 <p>no consoles in stock :</p>
@@ -131,7 +136,7 @@ function App() {
                 </div>
               )}
     
-              <Modal
+              {/* <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -186,7 +191,10 @@ function App() {
                     <button type="submit">Update Console</button>
                   </form>
                 </Box>
-              </Modal>
+              </Modal> */}
             </section>
-          </main>
+        </main>
         </>
+    );
+}
+export default App;

@@ -1,2 +1,16 @@
+@import "tailwindcss";
 
 
+
+h2,p,label,butto,input{
+ color:black
+}
+
+body {
+  
+}
+
+input  {
+ 
+
+}

@@ -20,7 +20,7 @@ const docClient = DynamoDBDocumentClient.from(client);
 
 export const listAllItems = async (tableName) => {
   try {
-    const res = await docClient.send(new ScanCommand({ TableName: tableName }));
+   const res = await docClient.send(new ScanCommand({ TableName: tableName }));
     return res.Items || [];
   } catch (err) {
     return [];
